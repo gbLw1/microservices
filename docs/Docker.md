@@ -4,6 +4,8 @@ Here are some useful Docker commands to help you get started with Docker.
 
 ## Build an image
 
+In the dockerfile directory, enter the following code:
+
 ```bash
 docker build -t <your_docker_hub_id>/<image_name> .
 ```
