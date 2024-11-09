@@ -26,3 +26,8 @@ Follow the [official microsoft tutorial](https://learn.microsoft.com/en-us/dotne
 ## Docker cheat sheet
 
 You can find a Docker cheat sheet in the [Docker.md](./docs/Docker.md) file that might be useful to help you get started with Docker and follow along with the course.
+
+## Kubernetes guide
+
+You can find a Kubernetes guide in the [Kubernetes.md](./docs/Kubernetes.md) file that might be useful to help you get started with Kubernetes and follow along with the course.
+
