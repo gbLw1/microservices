@@ -12,6 +12,7 @@ Here are some useful commands to help you get started with Kubernetes.
   - [Linux](#linux)
 - [Getting started](#getting-started)
   - [Create a deployment](#create-a-deployment)
+  - [Create a service](#create-a-service)
 - [Commands](#commands)
 
 ---
