@@ -5,6 +5,7 @@ Here are some quick guide to help you get started with Docker.
 ## Table of contents
 
 - [What is Docker?](#what-is-docker)
+- [Installation](#installation)
 - [Containerization process](#containerization-process)
   - [How it works?](#how-it-works)
 - [Dockerfile](#dockerfile)
@@ -16,6 +17,82 @@ Here are some quick guide to help you get started with Docker.
 ## What is Docker?
 
 Docker is a platform for developing, shipping, and running applications using containerization. It allows you to package your application and all its dependencies into a container, which can then be run on any machine that has Docker installed.
+
+---
+
+## Installation
+
+### Windows
+
+1. Download the [Docker Desktop for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows) from the Docker Hub.
+2. Install the Docker Desktop, pretty straightforward.
+3. Enable WSL 2 (Windows Subsystem for Linux) by following the [official guide](https://docs.microsoft.com/en-us/windows/wsl/install).
+   But it's pretty simple, just run the following command in PowerShell as an administrator:
+
+   ```powershell
+    wsl --install
+   ```
+
+4. Restart your computer and you are ready to go!
+
+#### Troubleshooting
+
+If you are having trouble with virtualization, you might need to enable it in the BIOS settings.
+
+1. Restart your computer and enter the BIOS settings by pressing the appropriate key (usually F2, F10, or Del).
+2. Look for an option called “Intel Virtualization Technology” (for Intel processors) or “SVM Mode” (for AMD processors) and enable it
+3. Save the changes and restart your computer.
+4. Enable Virtual Machine Platform on Windows
+   4.1. Open PowerShell as an administrator
+
+   4.2. Run the following command to enable Virtual Machine Platform:
+
+   ```powershell
+   dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+   ```
+
+   4.3. Then, enable the Windows Subsystem for Linux feature:
+
+   ```powershell
+   dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+   ```
+
+   4.4. Restart your computer.
+
+5. You should be able to run Docker Desktop without any issues.
+
+### Linux
+
+This is a step-by-step guide to install Docker on Arch Linux. For other distributions, check the [official documentation](https://docs.docker.com/engine/install/) or some youtube tutorials.
+
+1. Install [Docker](https://docs.docker.com/engine/install/)
+   Required to create images and run containers.
+
+   ```bash
+     sudo pacman -S docker
+   ```
+
+2. Add your user to the `docker` group to avoid using `sudo` every time you run a Docker command.
+
+   ```bash
+    sudo usermod -aG docker $USER
+   ```
+
+3. Start and enable the Docker service.
+   This will start the Docker service and enable it to start on boot so you don't have to start it manually every time you boot your computer.
+
+   ```bash
+    sudo systemctl start docker
+    sudo systemctl enable docker
+   ```
+
+4. Verify that Docker is installed correctly by running the following command:
+
+   ```bash
+    docker --version
+   ```
+
+5. You are ready to go!
 
 ---
 
