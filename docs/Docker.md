@@ -66,6 +66,7 @@ If you are having trouble with virtualization, you might need to enable it in th
 This is a step-by-step guide to install Docker on Arch Linux. For other distributions, check the [official documentation](https://docs.docker.com/engine/install/) or some youtube tutorials.
 
 1. Install [Docker](https://docs.docker.com/engine/install/)
+
    Required to create images and run containers.
 
    ```bash
