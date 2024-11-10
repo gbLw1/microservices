@@ -1,12 +1,13 @@
-# Kubernetes
+# Kubernetes guide
 
-Here are some useful commands to help you get started with Kubernetes.
+Here are some quick guides to help you get started with Kubernetes.
 
 ## Table of contents
 
 - [What is Kubernetes?](#what-is-kubernetes)
+  - [How it works](#how-it-works)
   - [Architecture](#architecture)
-  - [Deployment YAML file](#deployment-yaml-file)
+  - [YAML file](#yaml-file)
 - [Installation](#installation)
   - [Windows](#windows)
   - [Linux](#linux)
@@ -21,9 +22,17 @@ Here are some useful commands to help you get started with Kubernetes.
 
 Kubernetes is an open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications.
 
+### How it works
+
+Kubernetes works by creating a **cluster** of machines that run containers. Each machine in the cluster is called a **node**, and each node can run one or more containers inside a **pod**. A pod is the smallest unit of deployment in Kubernetes and is a group of one or more containers that share the same network and storage. Kubernetes manages the deployment of containers across the cluster, ensuring that they are running and healthy.
+
+Unlike Docker, where you run a container directly on a single machine, Kubernetes is designed to run containers in a distributed environment, across multiple machines. To access your application from outside the cluster, you need to create a service that will expose it. One way to do this is by using a **NodePort** service, which opens a specific port on each node in the cluster. This NodePort will route traffic from that external port on each node to the pods running your application.
+
+Although **NodePort** allows you to expose your application, it requires you to manually manage the node's IP addresses and the specific port number to access it. For more advanced setups, like those in cloud environments, Kubernetes also supports a **LoadBalancer** service type. This service type automatically creates an external load balancer to distribute traffic across your pods, but it’s typically available only in cloud setups that support load balancers.
+
 ### Architecture
 
-It is composed by multiple layers:
+It is composed by multiple layers, the main ones are:
 
 - **Cluster**: A cluster is a set of physical or virtual machines that are connected to each other and run Kubernetes.
 - **Node**: A node is a physical or virtual machine that is part of a Kubernetes cluster.
@@ -31,12 +40,12 @@ It is composed by multiple layers:
 
 ![K8S architecture](./imgs/k8s-architecture.png)
 
-### Deployment YAML file
+### YAML file
 
-A deployment file is a YAML file that defines the deployment configuration. It contains the following fields:
+The YAML file is a human-readable data serialization standard that is commonly used for configuration files. In Kubernetes, YAML files are used to define the deployment configuration.
 
 - **apiVersion**: The version of the Kubernetes API that you are using.
-- **kind**: The type of resource that you are creating.
+- **kind**: The type of resource that you are creating (e.g., Deployment, Service).
 - **metadata**: Contains information about the deployment, such as the name and labels.
 - **spec**: Contains the deployment configuration, such as the number of replicas and the container image.
   - **replicas**: The number of replicas that you want to create (horizontal scaling).
@@ -83,6 +92,8 @@ minikube start --driver=docker
 
 ### Create a deployment
 
+This will deploy your application to the Kubernetes cluster, running your application in one or more pods.
+
 1. Define a deployment file
    The deployment file is a YAML file that defines the deployment configuration.
 
@@ -100,6 +111,8 @@ minikube start --driver=docker
    ```
 
 ### Create a service
+
+Creating a service will expose your application to the outside world, where you can access it from your machine.
 
 1. Define a service file
    The service file is a YAML file that defines the service configuration.
@@ -134,6 +147,8 @@ minikube start --driver=docker
 
 ## Commands
 
+Here are some useful commands to interact with Kubernetes.
+
 ### Cluster
 
 - Get cluster information
@@ -142,86 +157,24 @@ minikube start --driver=docker
 kubectl cluster-info
 ```
 
-- Get nodes
+### Resources
+
+Replace `<resource>` with the resource you want to interact with (e.g., deployments, services, nodes, pods).
+
+#### Get resources
 
 ```bash
-kubectl get nodes
+kubectl get <resource>
 ```
 
-- Get pods
+#### Get resource details
 
 ```bash
-kubectl get pods
+kubectl describe <resource> <resource-name>
 ```
 
-### Deployment
-
-- Create a deployment
+#### Delete resource
 
 ```bash
-kubectl create deployment <deployment-name> --image=<image-name>
-```
-
-- Get deployments
-
-```bash
-kubectl get deployments
-```
-
-- Get deployment details
-
-```bash
-kubectl describe deployment <deployment-name>
-```
-
-- Delete a deployment
-
-```bash
-kubectl delete deployment <deployment-name>
-```
-
-### Service
-
-- Create a service
-
-```bash
-kubectl expose deployment <deployment-name> --type=LoadBalancer --port=<port>
-```
-
-- Get services
-
-```bash
-kubectl get services
-```
-
-- Get service details
-
-```bash
-kubectl describe service <service-name>
-```
-
-- Delete a service
-
-```bash
-kubectl delete service <service-name>
-```
-
-### Pod
-
-- Get pods
-
-```bash
-kubectl get pods
-```
-
-- Get pod details
-
-```bash
-kubectl describe pod <pod-name>
-```
-
-- Delete a pod
-
-```bash
-kubectl delete pod <pod-name>
+kubectl delete <resource> <resource-name>
 ```
