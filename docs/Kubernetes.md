@@ -15,6 +15,11 @@ Here are some quick guides to help you get started with Kubernetes.
   - [Create a deployment](#create-a-deployment)
   - [Create a service](#create-a-service)
 - [Commands](#commands)
+  - [Cluster](#cluster)
+  - [Resources](#resources)
+    - [Get resources](#get-resources)
+    - [Get resource details](#get-resource-details)
+    - [Delete resource](#delete-resource)
 
 ---
 
