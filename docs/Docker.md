@@ -43,6 +43,7 @@ If you are having trouble with virtualization, you might need to enable it in th
 2. Look for an option called “Intel Virtualization Technology” (for Intel processors) or “SVM Mode” (for AMD processors) and enable it
 3. Save the changes and restart your computer.
 4. Enable Virtual Machine Platform on Windows
+
    4.1. Open PowerShell as an administrator
 
    4.2. Run the following command to enable Virtual Machine Platform:
@@ -80,6 +81,7 @@ This is a step-by-step guide to install Docker on Arch Linux. For other distribu
    ```
 
 3. Start and enable the Docker service.
+
    This will start the Docker service and enable it to start on boot so you don't have to start it manually every time you boot your computer.
 
    ```bash
