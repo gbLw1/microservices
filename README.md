@@ -4,6 +4,17 @@
 
 This repository is [.NET Microservices – Full Course](https://youtu.be/DgVjEo3OGBI) from Les Jackson on Youtube
 
+## About the project
+
+Theme: **Command Service System**
+
+The project involves developing a system that manages two main types of microservices:
+
+- **Platform Service**: This service handles operations related to the platform, which can be considered part of the infrastructure or a database of information related to products, systems, or users.
+- **Command Service**: This service manages specific actions or "commands" that can be executed based on requests made to the system.
+
+The goal of the course is to guide the student in building these two microservices and how they communicate, either synchronously (via **HTTP** or **gRPC**) or asynchronously (using an Event Bus with **RabbitMQ**).
+
 ## Requirements
 
 - [.NET Core 5 or later](https://dotnet.microsoft.com/download)
