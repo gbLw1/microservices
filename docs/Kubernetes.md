@@ -183,3 +183,13 @@ kubectl describe <resource> <resource-name>
 ```bash
 kubectl delete <resource> <resource-name>
 ```
+
+### Refresh image
+
+After you build and push a new image to the registry (Docker Hub), you need to update the deployment to use the new image cause Kubernetes doesn't automatically update the pods when you update the image.
+
+To do this, you can use the following command:
+
+```bash
+kubectl rollout restart deployment <deployment-name>
+```

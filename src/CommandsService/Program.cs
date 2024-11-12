@@ -16,7 +16,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Get rid of warnings since we are not using HTTPS into our internal k8s cluster
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
