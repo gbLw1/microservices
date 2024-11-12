@@ -19,3 +19,7 @@ You can find a Kubernetes guide in the [Kubernetes.md](./docs/Kubernetes.md) fil
 ## Messaging
 
 You can check the [Messaging.md](./docs/Messaging.md) file to understand how **asynchronous** and **synchronous** messaging works in the microservices architecture.
+
+## K8S Development process
+
+You can check the [K8S README.md](./K8S/README.md) file to understand the development process of deploying the application to Kubernetes.
