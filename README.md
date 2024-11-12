@@ -4,6 +4,13 @@
 
 This repository is [.NET Microservices – Full Course](https://youtu.be/DgVjEo3OGBI) from Les Jackson on Youtube
 
+## Requirements
+
+- [.NET Core 5 or later](https://dotnet.microsoft.com/download)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [Account on Docker Hub](https://hub.docker.com/)
+- [Insomnia](https://insomnia.rest/download) or [Postman](https://www.postman.com/downloads/)
+
 ## Testing
 
 To keep it simple, we are going to test the application endpoints using http rather than https for the most part for various reasons, more especially when you come to kubernetes, it becomes very complex and it's going to detract from the main focus of the course.
