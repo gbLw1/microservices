@@ -9,6 +9,7 @@ Here's a step by step notes following along with the course to deploy the applic
 - [Deploying the Platform service to Kubernetes](#deploying-the-platform-service-to-kubernetes)
 - [Creating the NodePort service](#creating-the-nodeport-service)
 - [Creating the ClusterIP service](#creating-the-clusterip-service)
+- [Setting up the API Gateway with Ingress Nginx Controller](#setting-up-the-api-gateway-with-ingress-nginx-controller)
 
 ---
 
@@ -177,5 +178,65 @@ kubectl rollout restart deployment platforms-depl
 ```
 
 And that's it, the services are now talking to each other via ClusterIP services.
+
+---
+
+## Setting up the API Gateway with Ingress Nginx Controller
+
+In a nutshell, an ingress controller is a reverse proxy for the Kubernetes universe. It acts as a reverse proxy, **routing traffic from the outside world to the correct service within a Kubernetes cluster**, and allows you to configure an HTTP or HTTPS load balancer for the said cluster.
+
+But it doesn't accept numbers or localhost as a domain, so we need to set up a domain to access the services.
+
+So, we are going to set up an Ingress Nginx Controller to route the traffic to our services as shown below, and then we can access the services via the domain we defined.
+
+![k8s step 5](../docs/imgs/k8s-step5.png)
+
+_we are only doing this because we are running on a local machine, in a production environment you would use a Load Balancer provided by your cloud provider and not an Ingress Controller._
+
+### Installing the Ingress Nginx Controller
+
+Looking up for "ingress nginx" on Google, we can find the official repository for the Ingress Nginx Controller for Kubernetes, which is [kubernetes/ingress-nginx](https://github.com/kubernetes/ingress-nginx).
+
+Scrolling down a bit, we can find the section [Get started](https://github.com/kubernetes/ingress-nginx#get-started) that will lead us to the documentation on how to install the Ingress Nginx Controller, which is [here](https://kubernetes.github.io/ingress-nginx/deploy/).
+
+So, following the quick start guide, we can install the Ingress Nginx Controller with the following command:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0-beta.0/deploy/static/provider/cloud/deploy.yaml
+```
+
+### Setting up the Ingress resource
+
+Now, we need to create an **Ingress resource** to route the traffic to our services using their ClusterIP services. For that, we can create a file ([ingress-srv.yaml](./ingress-srv.yaml)).
+
+As you can see, we defined the `host` as `acme.com`, which is a fake domain, you can change it to whatever you want, but remember to add it to your `hosts` file.
+
+#### hosts file
+
+On windows you can find the `hosts` file in the following path: `C:\Windows\System32\drivers\etc\hosts`.\_
+
+On linux you can find the `hosts` file in the following path: `/etc/hosts`.
+
+You can add the following line to the `hosts` file:
+
+```bash
+127.0.0.1 <domain>
+```
+
+Changing the `<domain>` to whatever you defined in the Ingress resource, in this case, `acme.com`.
+
+#### Applying the Ingress resource
+
+After that, we finally can apply the Ingress resource with the following command:
+
+```bash
+kubectl apply -f ingress-srv.yaml
+```
+
+And what we reached so far is that we can access the services via the Ingress Nginx Controller using the domain `acme.com`.
+
+What this does is that the **Ingress Controller** is going to route the traffic to the services based on the path, acting as a reverse proxy, so if we access `acme.com/platforms` it's going to route the traffic to the Platform service, and if we access `acme.com/commands` it's going to route the traffic to the Command service.
+
+External traffic passes thru the Load Balancer, then to the Ingress Controller, and finally to the services.
 
 ---
