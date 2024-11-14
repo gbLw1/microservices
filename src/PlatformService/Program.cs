@@ -13,10 +13,23 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+// Comment the if statement to use only the SQL Server DB to generate migrations
+if (builder.Environment.IsProduction())
 {
-    options.UseInMemoryDatabase("InMem");
-});
+    Console.WriteLine("--> Using SQL Server DB");
+    builder.Services.AddDbContext<AppDbContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("PlatformsConn"));
+    });
+}
+else
+{
+    Console.WriteLine("--> Using InMem DB");
+    builder.Services.AddDbContext<AppDbContext>(options =>
+    {
+        options.UseInMemoryDatabase("InMem");
+    });
+}
 
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 
@@ -41,6 +54,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-PrepDb.PrepPopulation(app);
+PrepDb.PrepPopulation(app, app.Environment.IsProduction()); // Comment to generate migrations
 
 app.Run();
