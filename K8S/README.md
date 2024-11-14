@@ -243,7 +243,15 @@ External traffic passes thru the Load Balancer, then to the Ingress Controller, 
 
 ## Setting up SQL Server in Kubernetes
 
-In this section we are going to set up a SQL Server in Kubernetes.
+In this section we are going to set up a SQL Server in Kubernetes for our Platform service to store the data.
+
+![k8s step 6](../docs/imgs/k8s-step6.png)
+
+### What is this Persistent Volume Claim?
+
+In a production environment, you would configure a **SQL Server** and a **Persistent Volume** to store the data. However, for this development scenario, we will use a local SQL Server and a **Persistent Volume Claim (PVC)** for storage on our local machine.
+
+This is necessary because, when persisting data in a Pod, we need storage that isn’t ephemeral. A **Persistent Volume** provides storage that remains available regardless of the Pod's lifecycle. This way, if the Pod crashes or is restarted, the data is still safe and accessible.
 
 ### Setting up the Persistent Volume Claim
 
@@ -270,8 +278,6 @@ kubectl create secret generic mssql --from-literal=SA_PASSWORD="y0ur_pa55w0rd!"
 ```
 
 ### Setting up the SQL Server for the Platform service
-
-Now we can set up the SQL Server for the Platform service.
 
 You can check the file [mssql-plat-depl.yaml](./mssql-plat-depl.yaml) to see the SQL Server configuration such as:
 
