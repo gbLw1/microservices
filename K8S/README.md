@@ -240,3 +240,56 @@ What this does is that the **Ingress Controller** is going to route the traffic 
 External traffic passes thru the Load Balancer, then to the Ingress Controller, and finally to the services.
 
 ---
+
+## Setting up SQL Server in Kubernetes
+
+In this section we are going to set up a SQL Server in Kubernetes.
+
+### Setting up the Persistent Volume Claim
+
+The first step is to create a Persistent Volume Claim (PVC) to store the data of the SQL Server.
+
+You can check the file [local-pvc.yaml](./local-pvc.yaml) to see the PVC configuration.
+
+After creating the PVC, we can apply it with the following command:
+
+```bash
+kubectl apply -f local-pvc.yaml
+```
+
+### Setting up the Secret for the SQL Server
+
+When we set up the SQL Server, it will require a system administrator password, therefore we need to create a secret to store this password. So, we are going to create as a secret in kubernetes and pull that in via config file.
+
+To do that, we are not going to create a file (it would defeat the purpose of the secret), we are going to use CLI and not store anywhere.
+
+With that said, we can create the secret with the following command:
+
+```bash
+kubectl create secret generic mssql --from-literal=SA_PASSWORD="y0ur_pa55w0rd!"
+```
+
+### Setting up the SQL Server for the Platform service
+
+Now we can set up the SQL Server for the Platform service.
+
+You can check the file [mssql-plat-depl.yaml](./mssql-plat-depl.yaml) to see the SQL Server configuration such as:
+
+- The deployment for the SQL Server
+- The environment variables for the SQL Server
+- ClusterIP service for the communication between the Platform service and the SQL Server
+- LoadBalancer service to access the SQL Server from the outside world
+
+After creating the SQL Server, we can apply it with the following command:
+
+```bash
+kubectl apply -f mssql-plat-depl.yaml
+```
+
+Just to make sure the SQL Server is up and running, we can check the pods with the following command:
+
+```bash
+kubectl get pods
+```
+
+And that's it for the SQL Server setup.
