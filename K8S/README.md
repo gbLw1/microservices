@@ -200,11 +200,39 @@ Looking up for "ingress nginx" on Google, we can find the official repository fo
 
 Scrolling down a bit, we can find the section [Get started](https://github.com/kubernetes/ingress-nginx#get-started) that will lead us to the documentation on how to install the Ingress Nginx Controller, which is [here](https://kubernetes.github.io/ingress-nginx/deploy/).
 
-So, following the quick start guide, we can install the Ingress Nginx Controller with the following command:
+#### Docker Desktop
+
+If you are running on Docker Desktop, you can install the Ingress Nginx Controller with the following command:
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0-beta.0/deploy/static/provider/cloud/deploy.yaml
 ```
+
+#### MiniKube
+
+If you are running on MiniKube, to install the Ingress Nginx Controller you only need to enable the Ingress addon with the following command:
+
+```bash
+minikube addons enable ingress
+```
+
+After that, we can check if the Ingress Nginx Controller is up and running with the following command:
+
+```bash
+kubectl get pods -n ingress-nginx
+```
+
+It should return something like this:
+
+| NAME                                      | READY | STATUS    | RESTARTS | AGE |
+| ----------------------------------------- | ----- | --------- | -------- | --- |
+| ingress-nginx-admission-create-7z5zv      | 0/1   | Completed | 0        | 2m  |
+| ingress-nginx-admission-patch-4z5zv       | 0/1   | Completed | 0        | 2m  |
+| ingress-nginx-controller-5b4b4b4b4b-4z5zv | 1/1   | Running   | 0        | 2m  |
+
+_ps: You can delete those idle pods if you want, they were created to run some jobs and they are not needed anymore._
+
+The Ingress Nginx Controller is up and running, we can move on to the next step.
 
 ### Setting up the Ingress resource
 
@@ -320,3 +348,7 @@ kubectl get pods
 ```
 
 And that's it for the SQL Server setup.
+
+```
+
+```
