@@ -9,8 +9,22 @@ Here's a step by step notes following along with the course to deploy the applic
 - [Deploying the Platform service to Kubernetes](#deploying-the-platform-service-to-kubernetes)
 - [Creating the NodePort service](#creating-the-nodeport-service)
 - [Creating the ClusterIP service](#creating-the-clusterip-service)
+  - [Recap](#recap)
+  - [ClusterIP service](#clusterip-service)
 - [Setting up the API Gateway with Ingress Nginx Controller](#setting-up-the-api-gateway-with-ingress-nginx-controller)
+  - [Installing the Ingress Nginx Controller](#installing-the-ingress-nginx-controller)
+    - [Docker Desktop](#docker-desktop)
+    - [MiniKube](#minikube)
+  - [Setting up the Ingress resource](#setting-up-the-ingress-resource)
+    - [hosts file](#hosts-file)
+      - [Windows](#windows)
+      - [Linux](#linux)
+    - [Applying the Ingress resource](#applying-the-ingress-resource)
 - [Setting up SQL Server in Kubernetes](#setting-up-sql-server-in-kubernetes)
+  - [What is this Persistent Volume Claim?](#what-is-this-persistent-volume-claim)
+  - [Setting up the Persistent Volume Claim](#setting-up-the-persistent-volume-claim)
+  - [Setting up the Secret for the SQL Server](#setting-up-the-secret-for-the-sql-server)
+  - [Setting up the SQL Server for the Platform service](#setting-up-the-sql-server-for-the-platform-service)
 
 ---
 
@@ -323,7 +337,7 @@ To do that, we are not going to create a file (it would defeat the purpose of th
 With that said, we can create the secret with the following command:
 
 ```bash
-kubectl create secret generic mssql --from-literal=SA_PASSWORD="y0ur_pa55w0rd!"
+kubectl create secret generic mssql --from-literal=SA_PASSWORD=y0ur_pa55w0rd!
 ```
 
 ### Setting up the SQL Server for the Platform service
