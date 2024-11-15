@@ -348,7 +348,3 @@ kubectl get pods
 ```
 
 And that's it for the SQL Server setup.
-
-```
-
-```
