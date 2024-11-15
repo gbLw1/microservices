@@ -214,9 +214,9 @@ As you can see, we defined the `host` as `acme.com`, which is a fake domain, you
 
 #### hosts file
 
-On windows you can find the `hosts` file in the following path: `C:\Windows\System32\drivers\etc\hosts`.\_
+##### Windows
 
-On linux you can find the `hosts` file in the following path: `/etc/hosts`.
+On windows you can find the `hosts` file in the following path: `C:\Windows\System32\drivers\etc\hosts`.\_
 
 You can add the following line to the `hosts` file:
 
@@ -225,6 +225,26 @@ You can add the following line to the `hosts` file:
 ```
 
 Changing the `<domain>` to whatever you defined in the Ingress resource, in this case, `acme.com`.
+
+##### Linux
+
+On linux you can find the `hosts` file in the following path: `/etc/hosts`.
+
+This is a little bit tricky, because we are running on a local machine, so we need to get the IP of the minikube to add to the `hosts` file.
+
+You can get the IP of the minikube with the following command:
+
+```bash
+minikube ip
+```
+
+And then you can add the following line to the `hosts` file:
+
+```bash
+<minikube_ip> <domain>
+```
+
+Changing the `<minikube_ip>` to the IP of the minikube and the `<domain>` to whatever you defined in the Ingress resource, in this case, `acme.com`.
 
 #### Applying the Ingress resource
 
