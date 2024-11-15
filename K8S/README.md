@@ -10,6 +10,7 @@ Here's a step by step notes following along with the course to deploy the applic
 - [Creating the NodePort service](#creating-the-nodeport-service)
 - [Creating the ClusterIP service](#creating-the-clusterip-service)
 - [Setting up the API Gateway with Ingress Nginx Controller](#setting-up-the-api-gateway-with-ingress-nginx-controller)
+- [Setting up SQL Server in Kubernetes](#setting-up-sql-server-in-kubernetes)
 
 ---
 
