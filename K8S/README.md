@@ -13,18 +13,17 @@ Here's a step by step notes following along with the course to deploy the applic
   - [ClusterIP service](#clusterip-service)
 - [Setting up the API Gateway with Ingress Nginx Controller](#setting-up-the-api-gateway-with-ingress-nginx-controller)
   - [Installing the Ingress Nginx Controller](#installing-the-ingress-nginx-controller)
-    - [Docker Desktop](#docker-desktop)
-    - [MiniKube](#minikube)
-  - [Setting up the Ingress resource](#setting-up-the-ingress-resource)
-    - [hosts file](#hosts-file)
-      - [Windows](#windows)
-      - [Linux](#linux)
-    - [Applying the Ingress resource](#applying-the-ingress-resource)
+  - [Setting up the Ingress resource yaml file](#setting-up-the-ingress-resource-yaml-file)
+  - [Applying the Ingress resource configuration](#applying-the-ingress-resource-configuration)
 - [Setting up SQL Server in Kubernetes](#setting-up-sql-server-in-kubernetes)
   - [What is this Persistent Volume Claim?](#what-is-this-persistent-volume-claim)
   - [Setting up the Persistent Volume Claim](#setting-up-the-persistent-volume-claim)
   - [Setting up the Secret for the SQL Server](#setting-up-the-secret-for-the-sql-server)
   - [Setting up the SQL Server for the Platform service](#setting-up-the-sql-server-for-the-platform-service)
+- [Deploying RabbitMQ to Kubernetes](#deploying-rabbitmq-to-kubernetes)
+  - [Creating the RabbitMQ yaml file](#creating-the-rabbitmq-yaml-file)
+  - [Checking if RabbitMQ is up and running](#checking-if-rabbitmq-is-up-and-running)
+  - [Accessing the RabbitMQ Management UI](#accessing-the-rabbitmq-management-ui)
 
 ---
 
@@ -248,17 +247,19 @@ _ps: You can delete those idle pods if you want, they were created to run some j
 
 The Ingress Nginx Controller is up and running, we can move on to the next step.
 
-### Setting up the Ingress resource
+### Setting up the Ingress resource yaml file
 
 Now, we need to create an **Ingress resource** to route the traffic to our services using their ClusterIP services. For that, we can create a file ([ingress-srv.yaml](./ingress-srv.yaml)).
 
 As you can see, we defined the `host` as `acme.com`, which is a fake domain, you can change it to whatever you want, but remember to add it to your `hosts` file.
 
-#### hosts file
+#### What is this `hosts` file?
 
-##### Windows
+The `hosts` file is a file that maps hostnames to IP addresses, it's used to resolve the domain names before DNS resolution. We need to add the domain we defined in the Ingress resource to the `hosts` file to access the services via the Ingress Nginx Controller.
 
-On windows you can find the `hosts` file in the following path: `C:\Windows\System32\drivers\etc\hosts`.\_
+##### Windows `hosts` file
+
+On windows you can find the `hosts` file in the following path: `C:\Windows\System32\drivers\etc`.
 
 You can add the following line to the `hosts` file:
 
@@ -268,7 +269,7 @@ You can add the following line to the `hosts` file:
 
 Changing the `<domain>` to whatever you defined in the Ingress resource, in this case, `acme.com`.
 
-##### Linux
+##### Linux `hosts` file
 
 On linux you can find the `hosts` file in the following path: `/etc/hosts`.
 
@@ -288,7 +289,7 @@ And then you can add the following line to the `hosts` file:
 
 Changing the `<minikube_ip>` to the IP of the minikube and the `<domain>` to whatever you defined in the Ingress resource, in this case, `acme.com`.
 
-#### Applying the Ingress resource
+### Applying the Ingress resource configuration
 
 After that, we finally can apply the Ingress resource with the following command:
 
@@ -362,3 +363,57 @@ kubectl get pods
 ```
 
 And that's it for the SQL Server setup.
+
+## Deploying RabbitMQ to Kubernetes
+
+In this section we are going to set up a RabbitMQ container with a ClusterIP and a LoadBalancer service to access it from the outside world, we're using that to allow our services to communicate with each other locally (via `dotnet run`) and do some testing.
+
+![k8s step 7](../docs/imgs/k8s-step7.png)
+
+_ps: this implementation is **not** recommended for production environments, we are setting RabbitMQ with 1 instance and no persistence, in a production environment you should follow the RabbitMQ documentation to set up a cluster with persistence as they recommend._
+
+### Creating the RabbitMQ yaml file
+
+Pretty much following the same boilerplate as the SQL Server, we are going to create a RabbitMQ deployment file ([rabbitmq-depl.yaml](./rabbitmq-depl.yaml)).
+
+After creating the RabbitMQ deployment, we can apply it with the following command:
+
+```bash
+kubectl apply -f rabbitmq-depl.yaml
+```
+
+### Checking if RabbitMQ is up and running
+
+After applying the RabbitMQ yaml file, we can check if the RabbitMQ is up and running with the following command:
+
+```bash
+kubectl get deployments
+kubectl get pods
+kubectl get services
+```
+
+You should see the RabbitMQ deployment, pod, and services up and running.
+
+### Accessing the RabbitMQ Management UI
+
+The RabbitMQ Management UI is a web-based application that allows you to monitor and interact with RabbitMQ.
+
+The default username and password are `guest`.
+
+#### Access on Windows
+
+You can directly access the RabbitMQ Management UI by going to the following URL: `localhost:15672`.
+
+#### Access on Linux
+
+On Linux, you need to get the IP of the minikube to access the RabbitMQ Management UI.
+
+You can get the IP of the minikube with the following command:
+
+```bash
+minikube ip
+```
+
+And then you can access the RabbitMQ Management UI by going to the following URL: `<minikube_ip>:15672`.
+
+---
