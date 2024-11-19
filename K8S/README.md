@@ -366,7 +366,7 @@ And that's it for the SQL Server setup.
 
 ## Deploying RabbitMQ to Kubernetes
 
-In this section we are going to set up a RabbitMQ container with a ClusterIP and a LoadBalancer service to access it from the outside world, we're using that to allow our services to communicate with each other locally (via `dotnet run`) and do some testing.
+In this section we are going to set up a RabbitMQ container with a ClusterIP and a LoadBalancer service to access it from the outside world. We need the LoadBalancer to allow our services to communicate with each other locally (via `dotnet run`) to do some testing.
 
 ![k8s step 7](../docs/imgs/k8s-step7.png)
 
