@@ -36,6 +36,7 @@ public class MessageBusClient : IMessageBusClient
             Console.WriteLine($"--> Could not connect to Message Bus: {ex.Message}");
         }
     }
+
     public void PublishNewPlatform(PlatformPublishedDto platformPublishedDto)
     {
         var message = JsonSerializer.Serialize(platformPublishedDto);
