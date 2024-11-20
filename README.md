@@ -1,5 +1,7 @@
 # Microservices
 
+The simplest microservices application that you can build with .NET
+
 ## Introduction
 
 This repository is [.NET Microservices – Full Course](https://youtu.be/DgVjEo3OGBI) from Les Jackson on Youtube
