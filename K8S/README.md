@@ -420,11 +420,9 @@ And then you can access the RabbitMQ Management UI by going to the following URL
 
 ## Extra network config for gRPC
 
-Still needed a extra network config because of the HTTPS
+As we are not using HTTPS (TLS) within Kubernetes in this course, gRPC needs that little bit extra config in order for us to tell it that we only use HTTP 2 protocol without TLS
 
 ### Explanation
-
-As we are not using HTTPS (TLS) in this course, gRPC needs that little bit extra config in order for us to tell it that we only use HTTP 2 protocol without TLS
 
 HTTPS was one of the things left out from the course because:
 
@@ -440,7 +438,6 @@ It's a little bit of a workaround, but in some ways it's not because if you don'
 All we need to do is add another port to our ClusterIP Service of the [platforms-depl.yaml](./platforms-depl.yaml)
 
 ```yaml
----
 spec:
   ports:
     - name: platformservice
@@ -494,3 +491,5 @@ We need to add the Kestrel configuration to the [appsettings.Production.json](..
 This is the config that tells Kestrel to use HTTP 2 protocol without TLS.
 
 ---
+
+And that's it, we have successfully deployed the application to Kubernetes.
