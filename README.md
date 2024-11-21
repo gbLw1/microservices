@@ -90,6 +90,12 @@ You can check the [Messaging.md](./docs/Messaging.md) file to understand how **a
 
 ---
 
+## gRPC
+
+You can check the [gRPC.md](./docs/gRPC.md) file to understand how gRPC works and how to use it in the project.
+
+---
+
 ## K8S Development process
 
 You can check the [K8S README.md](./K8S/README.md) file to understand the development process of deploying the application to Kubernetes.
