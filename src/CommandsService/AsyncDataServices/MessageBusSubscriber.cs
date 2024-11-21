@@ -70,8 +70,6 @@ public class MessageBusSubscriber : BackgroundService
 
     public override void Dispose()
     {
-        Console.WriteLine("--> MessageBus Disposed");
-
         if (_channel.IsOpen)
         {
             _channel.Close();
