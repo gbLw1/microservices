@@ -417,3 +417,80 @@ minikube ip
 And then you can access the RabbitMQ Management UI by going to the following URL: `<minikube_ip>:15672`.
 
 ---
+
+## Extra network config for gRPC
+
+Still needed a extra network config because of the HTTPS
+
+### Explanation
+
+As we are not using HTTPS (TLS) in this course, gRPC needs that little bit extra config in order for us to tell it that we only use HTTP 2 protocol without TLS
+
+HTTPS was one of the things left out from the course because:
+
+1. There's quite a lot involved to get up and running in the cluster, even generating development certificates
+2. There's a lot of opinions that you don't really need https inside your clusters because it's kind of an internal domain, you would terminate TLS at the ingress nginx gateway
+
+So, from your web browsers to your services up to the gateway, yep, use https absolutely, but inside your cluster there's different opinions, some of them suggest you don't even need to use it.
+
+It's a little bit of a workaround, but in some ways it's not because if you don't want to use HTTPS in your cluster you would have to do something like this anyway.
+
+### K8S extra config
+
+All we need to do is add another port to our ClusterIP Service of the [platforms-depl.yaml](./platforms-depl.yaml)
+
+```yaml
+---
+spec:
+  ports:
+    - name: platformservice
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: platformgrpc
+      protocol: TCP
+      port: 666
+      targetPort: 666
+```
+
+After that, we can apply the file with the following command:
+
+_We need to apply because we are changing the configuration of the deployment, so the rollout restart wouldn't work in this case._
+
+```bash
+kubectl apply -f platforms-depl.yaml
+```
+
+And then we can check if the port was added to the ClusterIP service with the following command:
+
+```bash
+kubectl get services
+```
+
+You should see the new port `666` added to the ClusterIP service of the Platform service.
+
+### .NET appsettings config
+
+We need to add the Kestrel configuration to the [appsettings.Production.json](../src/PlatformService/appsettings.Production.json) file of the Platform service.
+
+```json
+{
+  // ...
+  "Kestrel": {
+    "Endpoints": {
+      "Grpc": {
+        "Protocols": "Http2",
+        "Url": "http://platforms-clusterip-srv:666" // this is the new port
+      },
+      "WebApi": {
+        "Protocols": "Http1",
+        "Url": "http://platforms-clusterip-srv:8080" // this is the default port
+      }
+    }
+  }
+}
+```
+
+This is the config that tells Kestrel to use HTTP 2 protocol without TLS.
+
+---
