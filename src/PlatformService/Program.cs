@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformService.AsyncDataServices;
 using PlatformService.Data;
+using PlatformService.SyncDataServices.Grpc;
 using PlatformService.SyncDataServices.Http;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +37,7 @@ builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 
 // Sync services
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
+builder.Services.AddGrpc();
 
 // Async services
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
@@ -58,6 +60,15 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<GrpcPlatformService>();
+
+// Optional: add a endpoint to serve up our contract
+app.MapGet("/protos/platforms.proto", async context =>
+{
+    var file = Path.Combine(app.Environment.ContentRootPath, "Protos", "platforms.proto");
+    var content = File.ReadAllText(file);
+    await context.Response.WriteAsync(content);
+});
 
 PrepDb.PrepPopulation(app, app.Environment.IsProduction()); // Comment to generate migrations
 
