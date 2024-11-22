@@ -49,9 +49,9 @@ We are using **RabbitMQ** as the message broker and the **Fanout** exchange type
 
 ![Fanout Exchange](./docs/imgs/fanout-exchange.png)
 
-This means that when a message is sent to the exchange, it will be broadcasted to all queues that are bound to that exchange, but in this case, we are only using one queue for each service.
+This means that when a message is sent to the exchange, it will be broadcasted to all queues that are bound to that exchange, but in this case, we are only using one queue.
 
-Our publisher is the **Platform Service**, and as soon as a new platform is created it will publish a message to the exchange which is going to **fan out** to every queue that's bound to it (it doesn't matter in our case, it's only one queue).
+Our publisher is the **Platform Service**, and as soon as a new platform is created it will publish a message to the exchange which is going to **fan out** to every queue that's bound to it.
 
 And then any consumer that is listening to that queue will receive the message and process it, in our case, it's the **Command Service**.
 
