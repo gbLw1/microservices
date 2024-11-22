@@ -17,3 +17,35 @@ We basically define a Protocol Buffer file (.proto) that describes the structure
 The protobuf file needs to exist in both the client and the server, so that they can communicate with each other.
 
 Then the gRPC library builds up a lot of stuff in the background that allows it to work, and then we work with gRPC to make calls and receive requests.
+
+In the Server project we need to install the following NuGet packages:
+
+- Grpc.AspNetCore
+
+In the Client project we need to install the following NuGet packages:
+
+- Google.Protobuf
+- Grpc.Net.Client
+- Grpc.Tools
+
+Then, in both projects we need to add the .proto file and configure it in the `.csproj` file like this:
+
+```xml
+<ItemGroup>
+  <Protobuf Include="Protos\yourproto.proto" GrpcServices="Server" />
+</ItemGroup>
+```
+
+_ps: The `GrpcServices` attribute can be `Server` or `Client`, depending on the project._
+
+In the Server project we need to add the following code to the `Program.cs` file:
+
+```csharp
+builder.Services.AddGrpc();
+```
+
+and bellow the `app.MapControllers();` line we need to add the following code:
+
+```csharp
+app.MapGrpcService<YourGrpcService>();
+```

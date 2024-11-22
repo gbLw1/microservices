@@ -27,6 +27,7 @@ builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
 // Background service for the message bus
 builder.Services.AddHostedService<MessageBusSubscriber>();
 
+// gRPC
 builder.Services.AddScoped<IPlatformDataClient, PlatformDataClient>();
 
 var app = builder.Build();
