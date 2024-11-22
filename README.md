@@ -70,6 +70,8 @@ And then any consumer that is listening to that queue will receive the message a
 
 To keep it simple, we are going to test the application endpoints using http rather than https for the most part for various reasons, more especially when you come to kubernetes, it becomes very complex and it's going to detract from the main focus of the course.
 
+I explained more about this in the [Extra network config for gRPC](./K8S/README.md#extra-network-config-for-grpc) section of the Kubernetes development process.
+
 ---
 
 ## Docker guide

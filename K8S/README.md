@@ -1,4 +1,4 @@
-# K8S
+# K8S Development process
 
 Here's a step by step notes following along with the course to deploy the application to Kubernetes.
 
